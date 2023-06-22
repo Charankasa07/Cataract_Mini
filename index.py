@@ -10,11 +10,11 @@ from skimage.feature import graycomatrix, graycoprops
 from sklearn.preprocessing import MinMaxScaler
 
 normal_dataset_path = r'Images/new_normal/'
-cataract_dataset_path = r'Images/new_cataract/'
+cataract_dataset_path = r'Images/new_cataract_copy/'
 
 
 file_normal = 1375
-file_cataract = 1139
+file_cataract = 937
 
 width,height = 400,400
 distance = 10
@@ -71,7 +71,7 @@ populate(normal_dataset_path,file_normal,0)
 populate(cataract_dataset_path,file_cataract,1)
 
 data = pd.DataFrame(np.transpose(data_eye), columns = indextable)
-# data.to_csv("cataract_data.csv")
+data.to_csv("cataract_data1.csv")
 scaler = MinMaxScaler()
 data.iloc[:, :-1] = scaler.fit_transform(data.iloc[:, :-1])
 # print(data.head())

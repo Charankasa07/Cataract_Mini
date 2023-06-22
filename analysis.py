@@ -21,7 +21,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-path='cataract_data.csv'
+path='cataract_data1.csv'
 
 original = pd.read_csv(path)
 original.drop(["Unnamed: 0"], axis=1, inplace=True)
@@ -115,7 +115,7 @@ def show_validation(X, y):
 
 X = data.drop(['Label'], axis='columns')
 y = data.Label
-# show_validation(X, y)  
+show_validation(X, y)  
 original.drop_duplicates(subset=None, keep='first', inplace=True)
 data = original.copy()
 plt.figure(figsize=(15,5))
@@ -129,75 +129,52 @@ original = original.drop(to_drop, axis=1)
 data = data.drop(to_drop, axis=1)
 print(data.info())
 
-print(len(y))
-from imblearn.over_sampling import SMOTE
-oversample = SMOTE()
-X, y = oversample.fit_resample(X, y)
-
-print(len(y))
 
 
 X_train, X_test, y_train, y_test = train_test_split(X, y,test_size=0.15, random_state=1)
 
 knn = make_pipeline(
-    # MinMaxScaler(),
     KNeighborsClassifier(7)
 )
 
 knn.fit(X_train, y_train)
-# print(knn.score(X_test, y_test))
-joblib.dump(knn, 'knn.pkl')
-knn_model = joblib.load("knn.pkl")
+joblib.dump(knn, 'knn1.pkl')
+knn_model = joblib.load("knn1.pkl")
 print(knn_model.score(X_test, y_test))
 
 svm = make_pipeline(
-    # MinMaxScaler(),
     svm.SVC(gamma='auto')
 )
 svm.fit(X_train,y_train)
-# print(svm.score(X_test, y_test))
-joblib.dump(svm, 'svm.pkl')
-svm_model = joblib.load("svm.pkl")
+joblib.dump(svm, 'svm1.pkl')
+svm_model = joblib.load("svm1.pkl")
 print(svm_model.score(X_test, y_test))
 
 lr = make_pipeline(
-    # MinMaxScaler(),
+
     LogisticRegression(solver='liblinear',multi_class='auto')
 )
 
 lr.fit(X_train,y_train)
-# print(lr.score(X_test, y_test))
-joblib.dump(lr, 'lr.pkl')
-lr_model = joblib.load("lr.pkl")
+joblib.dump(lr, 'lr1.pkl')
+lr_model = joblib.load("lr1.pkl")
 print(lr_model.score(X_test, y_test))
 
 rfc = make_pipeline(
-    # MinMaxScaler(),
     RandomForestClassifier(n_estimators = 100, max_depth = 5, max_features= 'sqrt')
 )
 
 rfc.fit(X_train,y_train)
-# print(rfc.score(X_test, y_test))
-joblib.dump(rfc, 'rfc.pkl')
-rfc_model = joblib.load("rfc.pkl")
+joblib.dump(rfc, 'rfc1.pkl')
+rfc_model = joblib.load("rfc1.pkl")
 print(rfc_model.score(X_test, y_test))
 
 nb = make_pipeline(
-    # MinMaxScaler(),
     GaussianNB()
 )
 
 nb.fit(X_train,y_train)
-# print(nb.score(X_test, y_test))
-joblib.dump(nb, 'nb.pkl')
-nb_model = joblib.load("nb.pkl")
+joblib.dump(nb, 'nb1.pkl')
+nb_model = joblib.load("nb1.pkl")
 print(nb_model.score(X_test, y_test))
 
-
-
-# confmat = confusion_matrix(y_true=y_test, y_pred=y_pred)
-# print(confmat)
-
-
-# report = classification_report(y_true = y_test, y_pred = y_pred)
-# print(report)
