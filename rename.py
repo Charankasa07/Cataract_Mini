@@ -1,6 +1,6 @@
 import os
 
-directory = 'Images/new_cataract_copy'  # Specify the directory where your images are located
+directory = 'Images/testing'  # Specify the directory where your images are located
 
 # Get a list of all files in the directory
 file_list = os.listdir(directory)
@@ -9,7 +9,7 @@ file_list = os.listdir(directory)
 file_list.sort()
 
 # Initialize a counter variable
-counter = 1
+counter = 1375
 
 # Iterate over each file in the directory
 for filename in file_list:
