@@ -64,17 +64,19 @@ def populate(path, size, label):
         hi+=1
         data_eye[len(indextable) - 1, count] = label
     
-        count = count + 1       
+        count = count + 1
+
 
 
 populate(normal_dataset_path,file_normal,0)
+
 populate(cataract_dataset_path,file_cataract,1)
 
 data = pd.DataFrame(np.transpose(data_eye), columns = indextable)
-data.to_csv("cataract_data1.csv")
 scaler = MinMaxScaler()
 data.iloc[:, :-1] = scaler.fit_transform(data.iloc[:, :-1])
-# print(data.head())
+data.to_csv("cataract_data1.csv")
+print(data.head())
 
 from sklearn import svm
 from sklearn.ensemble import RandomForestClassifier

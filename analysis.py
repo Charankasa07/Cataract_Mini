@@ -68,7 +68,6 @@ def my_validation_curve(X, y, model, name, param_range, model_name):
     
     plt.title(model_name)
     plt.grid()
-#     plt.xscale('log')
     plt.legend(loc='lower right')
     plt.xlabel(name)
     plt.ylabel('Accuracy')
@@ -138,16 +137,16 @@ knn = make_pipeline(
 )
 
 knn.fit(X_train, y_train)
-joblib.dump(knn, 'knn1.pkl')
-knn_model = joblib.load("knn1.pkl")
+joblib.dump(knn, 'knn2.pkl')
+knn_model = joblib.load("knn2.pkl")
 print(knn_model.score(X_test, y_test))
 
 svm = make_pipeline(
     svm.SVC(gamma='auto')
 )
 svm.fit(X_train,y_train)
-joblib.dump(svm, 'svm1.pkl')
-svm_model = joblib.load("svm1.pkl")
+joblib.dump(svm, 'svm2.pkl')
+svm_model = joblib.load("svm2.pkl")
 print(svm_model.score(X_test, y_test))
 
 lr = make_pipeline(
@@ -156,8 +155,8 @@ lr = make_pipeline(
 )
 
 lr.fit(X_train,y_train)
-joblib.dump(lr, 'lr1.pkl')
-lr_model = joblib.load("lr1.pkl")
+joblib.dump(lr, 'lr2.pkl')
+lr_model = joblib.load("lr2.pkl")
 print(lr_model.score(X_test, y_test))
 
 rfc = make_pipeline(
@@ -165,8 +164,8 @@ rfc = make_pipeline(
 )
 
 rfc.fit(X_train,y_train)
-joblib.dump(rfc, 'rfc1.pkl')
-rfc_model = joblib.load("rfc1.pkl")
+joblib.dump(rfc, 'rfc2.pkl')
+rfc_model = joblib.load("rfc2.pkl")
 print(rfc_model.score(X_test, y_test))
 
 nb = make_pipeline(
@@ -174,7 +173,7 @@ nb = make_pipeline(
 )
 
 nb.fit(X_train,y_train)
-joblib.dump(nb, 'nb1.pkl')
-nb_model = joblib.load("nb1.pkl")
+joblib.dump(nb, 'nb2.pkl')
+nb_model = joblib.load("nb2.pkl")
 print(nb_model.score(X_test, y_test))
 

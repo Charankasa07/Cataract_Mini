@@ -34,8 +34,7 @@ def preprocessingImage(image):
 
 def extract(image):
     data_eye = np.zeros((6, 1))
-    
-    # image = cv.imread(path)
+
     img = preprocessingImage(image)
     
     glcm = graycomatrix(img, [distance], [teta], levels=256, symmetric=True, normed=True)
@@ -55,15 +54,11 @@ check = []
 def predict(image):
     model_rfc = joblib.load("rfc1.pkl")
     model_knn = joblib.load("knn1.pkl")
-    model_lr = joblib.load("lr1.pkl")
-    model_nb = joblib.load("nb1.pkl")
     model_svm = joblib.load("svm1.pkl")
     X = extract(image)
     results = []
     results.append(obj[model_rfc.predict(X)[0]])
     results.append(obj[model_knn.predict(X)[0]])
-    results.append(obj[model_lr.predict(X)[0]])
-    results.append(obj[model_nb.predict(X)[0]])
     results.append(obj[model_svm.predict(X)[0]])
     normal_count = 0
     cataract_count = 0
@@ -73,32 +68,11 @@ def predict(image):
         else:
             cataract_count+=1
     if(normal_count > cataract_count):
-        actual_result = "Normal"
+        actual_result = "Not a Cataract"
     else:
         actual_result = "Cataract"            
     check.append(actual_result)
-    # print(results)
     st.success('\n\n\n\n\nThe Predicted Output for image is {}\n\n\n\n\n'.format(actual_result))
-
-# print("***************   The prediction for Normal Image     ****************")
-# predict(f'Images/new_normal/0111.jpg')
-# print("----------------------------------------------------------------------\n\n")
-# print("***************   The prediction for Cataract Image   ****************")
-# predict(f'Images/new_cataract_copy/0831.jpg') 
-
-# for i in range(1,1375):
-#     predict(f'Images/new_normal/{str(i).zfill(4)}.jpg')
-
-# normal = 0
-# cataract = 0
-# for i in check:
-#     if( i == "Normal"):
-#         normal += 1
-#     else:
-#         cataract += 1
-# print("The output for Normal images is")
-# print("\n\n\nThe Normal count is "+str(normal))        
-# print("\n\n\nThe Cataract count is "+str(cataract))  
 
 st.title("CATARACT Disease Prediction")
 
@@ -109,9 +83,11 @@ if st.button('Predict'):
     if filename is not None:
         file_bytes = np.asarray(bytearray(filename.read()), dtype=np.uint8)
         opencv_image = cv.imdecode(file_bytes, 1)
-        predict(opencv_image)
+        height,width,channel= opencv_image.shape
+        if height == 600 and width == 800 :
+            predict(opencv_image)
+        else:
+            st.warning("Resolution of an Images is in-appropriate \n Make sure that the image you give will have the following dimensions : \n Width : 800 pixels \n Height : 600 pixels")
     else:
         st.warning("Please Select file to proceed")    
 
-
-    
