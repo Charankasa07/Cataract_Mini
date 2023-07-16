@@ -72,7 +72,7 @@ def predict(image):
     else:
         actual_result = "Cataract"            
     check.append(actual_result)
-    st.success('\n\n\n\n\nThe Predicted Output for image is {}\n\n\n\n\n'.format(actual_result))
+    st.success('\n\n\n\n\nThe Predicted Label for the image is "{}"\n\n\n\n\n'.format(actual_result))
 
 st.title("CATARACT Disease Prediction")
 
