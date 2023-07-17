@@ -9,9 +9,6 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.pipeline import make_pipeline
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import classification_report
-from sklearn.metrics import roc_auc_score
 import joblib
 
 
@@ -137,16 +134,16 @@ knn = make_pipeline(
 )
 
 knn.fit(X_train, y_train)
-joblib.dump(knn, 'knn2.pkl')
-knn_model = joblib.load("knn2.pkl")
+joblib.dump(knn, 'knn1.pkl')
+knn_model = joblib.load("knn1.pkl")
 print(knn_model.score(X_test, y_test))
 
 svm = make_pipeline(
     svm.SVC(gamma='auto')
 )
 svm.fit(X_train,y_train)
-joblib.dump(svm, 'svm2.pkl')
-svm_model = joblib.load("svm2.pkl")
+joblib.dump(svm, 'svm1.pkl')
+svm_model = joblib.load("svm1.pkl")
 print(svm_model.score(X_test, y_test))
 
 lr = make_pipeline(
@@ -155,8 +152,8 @@ lr = make_pipeline(
 )
 
 lr.fit(X_train,y_train)
-joblib.dump(lr, 'lr2.pkl')
-lr_model = joblib.load("lr2.pkl")
+joblib.dump(lr, 'lr1.pkl')
+lr_model = joblib.load("lr1.pkl")
 print(lr_model.score(X_test, y_test))
 
 rfc = make_pipeline(
@@ -164,8 +161,8 @@ rfc = make_pipeline(
 )
 
 rfc.fit(X_train,y_train)
-joblib.dump(rfc, 'rfc2.pkl')
-rfc_model = joblib.load("rfc2.pkl")
+joblib.dump(rfc, 'rfc1.pkl')
+rfc_model = joblib.load("rfc1.pkl")
 print(rfc_model.score(X_test, y_test))
 
 nb = make_pipeline(
@@ -173,7 +170,7 @@ nb = make_pipeline(
 )
 
 nb.fit(X_train,y_train)
-joblib.dump(nb, 'nb2.pkl')
-nb_model = joblib.load("nb2.pkl")
+joblib.dump(nb, 'nb1.pkl')
+nb_model = joblib.load("nb1.pkl")
 print(nb_model.score(X_test, y_test))
 

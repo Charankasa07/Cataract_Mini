@@ -67,6 +67,7 @@ def predict(image):
             normal_count += 1
         else:
             cataract_count+=1
+    print(normal_count,cataract_count)        
     if(normal_count > cataract_count):
         actual_result = "Not a Cataract"
     else:
