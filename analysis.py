@@ -5,10 +5,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
-from sklearn.tree import DecisionTreeClassifier
 from sklearn.pipeline import make_pipeline
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MinMaxScaler
 import joblib
 
 
@@ -16,7 +14,6 @@ import pandas as pd
 import numpy as np
 
 import matplotlib.pyplot as plt
-import seaborn as sns
 
 path='cataract_data1.csv'
 
@@ -111,14 +108,14 @@ def show_validation(X, y):
 
 X = data.drop(['Label'], axis='columns')
 y = data.Label
-show_validation(X, y)  
+# show_validation(X, y)  
 original.drop_duplicates(subset=None, keep='first', inplace=True)
 data = original.copy()
-plt.figure(figsize=(15,5))
-sns.countplot(x=data['Label'], label="count")
+
 
 cor_matrix = data.corr().abs()
-upper_tri = cor_matrix.where(np.triu(np.ones(cor_matrix.shape),k=1).astype(np.bool))
+print(cor_matrix)
+upper_tri = cor_matrix.where(np.triu(np.ones(cor_matrix.shape),k=1).astype(np.bool_))
 to_drop = [column for column in upper_tri.columns if any(upper_tri[column] > 0.90)]
 
 original = original.drop(to_drop, axis=1)
@@ -127,10 +124,10 @@ print(data.info())
 
 
 
-X_train, X_test, y_train, y_test = train_test_split(X, y,test_size=0.15, random_state=1)
+X_train, X_test, y_train, y_test = train_test_split(X, y,test_size=0.15, random_state=0)
 
 knn = make_pipeline(
-    KNeighborsClassifier(7)
+    KNeighborsClassifier(11)
 )
 
 knn.fit(X_train, y_train)
@@ -139,7 +136,7 @@ knn_model = joblib.load("knn1.pkl")
 print(knn_model.score(X_test, y_test))
 
 svm = make_pipeline(
-    svm.SVC(gamma='auto')
+    svm.SVC(gamma='auto',C=30,kernel='rbf')
 )
 svm.fit(X_train,y_train)
 joblib.dump(svm, 'svm1.pkl')
@@ -157,7 +154,7 @@ lr_model = joblib.load("lr1.pkl")
 print(lr_model.score(X_test, y_test))
 
 rfc = make_pipeline(
-    RandomForestClassifier(n_estimators = 100, max_depth = 5, max_features= 'sqrt')
+    RandomForestClassifier(n_estimators = 50, max_depth = 5, max_features= 'sqrt')
 )
 
 rfc.fit(X_train,y_train)

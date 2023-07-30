@@ -4,12 +4,20 @@ import cv2 as cv
 from skimage.feature import graycomatrix, graycoprops
 import joblib
 import streamlit as st
+from sklearn.model_selection import train_test_split
 
 indextable = ['dissimilarity', 'contrast', 'homogeneity', 'energy','ASM', 'correlation', 'Label']
 width, height = 400, 400
 distance = 10
 teta = 90
+path='cataract_data1.csv'
 
+original = pd.read_csv(path)
+original.drop(["Unnamed: 0"], axis=1, inplace=True)
+data = original.copy()
+X = data.drop(['Label'], axis='columns')
+y = data.Label
+X_train, X_test, y_train, y_test = train_test_split(X, y,test_size=0.15, random_state=0)
 
 def get_feature(matrix, name):
     feature = graycoprops(matrix, name)
@@ -50,16 +58,19 @@ obj = {
     0.0: "Normal",
     1.0: "Cataract"
 }
-check = []
 def predict(image):
     model_rfc = joblib.load("rfc1.pkl")
     model_knn = joblib.load("knn1.pkl")
     model_svm = joblib.load("svm1.pkl")
+    model_lr = joblib.load("lr1.pkl")
+    model_nb = joblib.load("nb1.pkl")
     X = extract(image)
     results = []
     results.append(obj[model_rfc.predict(X)[0]])
     results.append(obj[model_knn.predict(X)[0]])
     results.append(obj[model_svm.predict(X)[0]])
+    # results.append(obj[model_lr.predict(X)[0]])
+
     normal_count = 0
     cataract_count = 0
     for result in results:
@@ -69,11 +80,13 @@ def predict(image):
             cataract_count+=1
     print(normal_count,cataract_count)        
     if(normal_count > cataract_count):
-        actual_result = "Not a Cataract"
+        actual_result = "Not a Cataract"    
     else:
-        actual_result = "Cataract"            
-    check.append(actual_result)
+        actual_result = "Cataract" 
+    average_accuracy = (model_rfc.score(X_test,y_test) + model_knn.score(X_test,y_test) + model_svm.score(X_test,y_test) + model_lr.score(X_test,y_test))/4 
+    average_accuracy = round(average_accuracy*100,2)              
     st.success('\n\n\n\n\nThe Predicted Label for the image is "{}"\n\n\n\n\n'.format(actual_result))
+    st.success("The Accuracy of the Model is {} %".format(average_accuracy))
 
 st.title("CATARACT Disease Prediction")
 

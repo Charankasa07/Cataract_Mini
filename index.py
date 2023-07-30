@@ -19,7 +19,7 @@ file_cataract = 937
 width,height = 400,400
 distance = 10
 teta = 90
-data_eye = np.zeros((7, 2512))
+data_eye = np.zeros((7, 2310))
 count = 0
 indextable = ['dissimilarity', 'contrast', 'homogeneity', 'energy', 'ASM', 'correlation', 'Label']
 
@@ -47,8 +47,6 @@ def preprocessingImage(image):
 
 def populate(path, size, label):
     global count
-    hi=0
-    hello=0
     for file in range(1, size):
         image = cv.imread(f'{path}{str(file).zfill(4)}.jpg')
         img = preprocessingImage(image)
@@ -60,8 +58,6 @@ def populate(path, size, label):
             feature = get_feature(glcm, indextable[i])
             features.append(feature)
             data_eye[i, count] = features[0]
-            hello+=1
-        hi+=1
         data_eye[len(indextable) - 1, count] = label
     
         count = count + 1
@@ -83,7 +79,6 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
-from sklearn.tree import DecisionTreeClassifier
 
 model_params = {
     'svm': {
@@ -133,4 +128,4 @@ def test_model(X, y):
 
 X = data.drop(['Label'], axis='columns')
 y = data.Label
-test_model(X, y)    
+# test_model(X, y)    
